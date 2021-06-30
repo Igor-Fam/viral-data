@@ -1,0 +1,12 @@
+{
+  "name": "teste-plot",
+  "displayName": "teste-plot",
+  "expo": {
+    "name": "teste-plot",
+    "slug": "teste-plot",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
