@@ -29,7 +29,8 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "babel-plugin-rename-jsx-attribute": "^0.2.4"
   },
   "private": true
 }
