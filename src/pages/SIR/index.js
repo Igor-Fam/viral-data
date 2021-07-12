@@ -81,7 +81,6 @@ export default function HomeScreen() {
           onValueChange={value=>setGamma(value)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={()=>setAlpha(0.00039)}><Text>MUDAR</Text></TouchableOpacity>
     </View>
   );
 }

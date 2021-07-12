@@ -11,7 +11,7 @@ function Routes() {
   return (
     <NavigationContainer>
       <AppStack.Navigator>
-        <AppStack.Screen name="Home" component={HomeScreen} />
+        <AppStack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
         <AppStack.Screen name="SIR" component={SIR} />
       </AppStack.Navigator>
     </NavigationContainer>
