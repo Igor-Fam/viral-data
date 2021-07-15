@@ -5,6 +5,7 @@ export default StyleSheet.create({
         borderColor: '#c2c2c2',
         borderRadius: 15,
         borderWidth: 1,
+        marginTop: 20,
     },
     main: {
         alignItems: 'center',

@@ -1,41 +1,39 @@
 import React, {useState} from 'react';
-import {Text, View, Dimensions, TouchableOpacity } from 'react-native';
+import {Text, View, Dimensions, TouchableOpacity, TextInput } from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import Slider from '@react-native-community/slider';
 
 import styles from './styles';
+import sir from './model.js'
 
 export default function HomeScreen() {
 
-  var susceptible = 1000, infectious = 1, recovered = 0;
+  const x = [];
 
-  const x = [], S = [], I = [], R = [];
-
-  S[0] = susceptible - infectious;
-  I[0] = infectious;
-  R[0] = recovered;
-
-  const [alpha, setAlpha] = useState(0.00035)
-  const [gamma, setGamma] = useState(0.12)
+  const [alpha, setAlpha] = useState(0.00035);
+  const [gamma, setGamma] = useState(0.12);
+  const [data, setData] = useState(sir(alpha, gamma));
   
-  for(let i=0; i<50; i+=5){
-    x.push(i);
-  }
-
-  for(let i=1; i<50; i++){
-    S.push(S[i - 1] - alpha * S[i - 1] * I[i - 1]);
-    I.push(I[i - 1] + (alpha * S[i - 1] * I[i - 1] - gamma * I[i - 1]));
-    R.push(R[i - 1] + gamma * I[i - 1]);
+  function varChange(variable, value, alpha, gamma){
+    if (variable == "alpha"){
+      setAlpha(value);
+      setData(sir(value, gamma));
+    } else if (variable == "gamma"){
+      setGamma(value);
+      setData(sir(alpha, value));
+    }
+    console.log(data);
   }
 
   return (
     <View style={styles.main}>
       <Text></Text>
       <LineChart
-        data={{
-          labels: x,
-          datasets: [{data: S, color: () => '#0f69fa'}, {data: I, color: () => '#f54242'}, {data: R, color: () => '#44f281'}]
-        }}
+        withDots = {false}
+        withShadow = {false}
+        withInnerLines = {false}
+        withOuterLines = {false}
+        data={data}
         width={Dimensions.get("window").width*0.95} // from react-native
         height={220}
         yAxisInterval={5} // optional, defaults to 1
@@ -46,41 +44,39 @@ export default function HomeScreen() {
           decimalPlaces: 2, // optional, defaults to 2dp
           color: (opacity = 1) => `rgba(15, 105, 250, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(100, 100, 100, ${opacity})`,
-          propsForDots: {
-            r: "0",
-            strokeWidth: "2",
-            stroke: "#0f69fa"
-          }
         }}
       />
+
       <View style={styles.sliderbox}>
         <Text>alpha: {alpha}</Text>
         <Slider
           style={{width: 200, height: 40}}
-          minimumValue={-10}
-          maximumValue={10}
+          minimumValue={0}
+          maximumValue={0.0003}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           thumbTintColor="#0f69fa"
-          step={1}
+          step={0.00001}
           value={alpha}
-          onValueChange={value=>setAlpha(value)}
+          onSlidingComplete={value=>varChange("alpha", value, alpha, gamma)}
         />
       </View>
       <View style={styles.sliderbox}>
-        <Text>b: {gamma}</Text>
+        <Text>gamma: {gamma}</Text>
         <Slider
           style={{width: 200, height: 40}}
-          minimumValue={-10}
-          maximumValue={10}
+          minimumValue={0}
+          maximumValue={0.3}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           thumbTintColor="#0f69fa"
-          step={1}
+          step={0.001}
           value={gamma}
-          onValueChange={value=>setGamma(value)}
+          onSlidingComplete={value=>varChange("gamma", value, alpha, gamma)}
         />
       </View>
+
+
     </View>
   );
 }
