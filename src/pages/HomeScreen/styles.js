@@ -10,7 +10,10 @@ export default StyleSheet.create({
         marginTop: 20,
         padding: 20,
         width: "70%",
-        borderRadius: 15
+        borderRadius: 15,
+        color: '#ffffff',
+        fontSize : 25,
+        alignSelf: 'center',
     },
     buttonText:{
         color: '#ffffff',

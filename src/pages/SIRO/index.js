@@ -4,23 +4,27 @@ import {LineChart} from 'react-native-chart-kit';
 import Slider from '@react-native-community/slider';
 
 import styles from './styles';
-import sir from './model.js'
+import siro from './model.js'
 
 export default function HomeScreen() {
 
   const x = [];
 
-  const [alpha, setAlpha] = useState(0.00035);
-  const [gamma, setGamma] = useState(0.12);
-  const [data, setData] = useState(sir(alpha, gamma));
+  const [alpha, setAlpha] = useState(0.5);
+  const [gamma, setGamma] = useState(0.14);
+  const [beta, setBeta] = useState(0.065);
+  const [data, setData] = useState(siro(alpha, gamma, beta));
   
-  function varChange(variable, value, alpha, gamma){
+  function varChange(variable, value, alpha, gamma, beta){
     if (variable == "alpha"){
       setAlpha(value);
-      setData(sir(value, gamma));
+      setData(siro(value, gamma, beta));
     } else if (variable == "gamma"){
       setGamma(value);
-      setData(sir(alpha, value));
+      setData(siro(alpha, value, beta));
+    } else if (variable == "beta"){
+      setBeta(value);
+      setData(siro(alpha, gamma, value));
     }
     console.log(data);
   }
@@ -52,13 +56,13 @@ export default function HomeScreen() {
         <Slider
           style={{width: 200, height: 40}}
           minimumValue={0}
-          maximumValue={0.0003}
+          maximumValue={0.5}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           thumbTintColor="#0f69fa"
-          step={0.00001}
+          step={0.01}
           value={alpha}
-          onSlidingComplete={value=>varChange("alpha", value, alpha, gamma)}
+          onSlidingComplete={value=>varChange("alpha", value, alpha, gamma, beta)}
         />
       </View>
       <View style={styles.sliderbox}>
@@ -72,11 +76,23 @@ export default function HomeScreen() {
           thumbTintColor="#0f69fa"
           step={0.001}
           value={gamma}
-          onSlidingComplete={value=>varChange("gamma", value, alpha, gamma)}
+          onSlidingComplete={value=>varChange("gamma", value, alpha, gamma, beta)}
         />
       </View>
-
-
+      <View style={styles.sliderbox}>
+        <Text>Taxa de óbito: {beta}</Text>
+        <Slider
+          style={{width: 200, height: 40}}
+          minimumValue={0}
+          maximumValue={0.08}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+          thumbTintColor="#0f69fa"
+          step={0.001}
+          value={beta}
+          onSlidingComplete={value=>varChange("beta", value, alpha, gamma, beta)}
+        />
+      </View>
     </View>
   );
 }

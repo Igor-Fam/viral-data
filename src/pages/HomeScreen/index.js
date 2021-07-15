@@ -10,14 +10,16 @@ export default function HomeScreen({navigation}) {
   function navigateToSIR(){
     return navigation.navigate('SIR');
   }
+  function navigateToSIRO(){
+    return navigation.navigate('SIRO');
+  }
 
   return (
 
     <View style={styles.main}>
-      <Text style={styles.title} onPress={navigateToSIR}>Modelos Virais</Text>
-      <Button style={styles.button}  title={"Sir"} >
-        
-      </Button>
+      <Text style={styles.title}>Modelos Virais</Text>
+      <Text style={styles.button} onPress={navigateToSIR}> SIR </Text>
+      <Text style={styles.button} onPress={navigateToSIRO}> SIRO </Text>
     </View>
   );
 }
