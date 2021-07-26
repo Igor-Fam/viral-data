@@ -1,18 +1,19 @@
-import React, {useState} from 'react';
 
-export default function sir(alpha, gamma){
-    var susceptible = 1000, infectious = 1, recovered = 0, dt = 1;
+export default function sir(alpha, gamma, infectious, population, recovered, time){
+    var dt = 1;
 
-    const x = [], S = [], I = [], R = [];
+    const x = [0], S = [], I = [], R = [];
 
-    S[0] = susceptible - infectious;
+    S[0] = population - infectious;
     I[0] = infectious;
     R[0] = recovered;
 
-    for(let i=1; i<500; i+=1){
+    for(let i=1; i<time; i+=1){
         S.push((S[i - 1] - alpha * S[i - 1] * I[i - 1])*dt )  ;
         I.push((I[i - 1] + (alpha * S[i - 1] * I[i - 1] - gamma * I[i - 1]))*dt);
         R.push((R[i - 1] + gamma * I[i - 1])*dt);
+        if(i%(time/10)==0)
+            x.push(i);
     }
     const data = {
         labels: x,
